@@ -91,7 +91,7 @@ public class BlockRenderer {
                 id = resolveBlockId(state);
             }
 
-            this.renderQuadList(world, state, pos, lighter, offset, buffers, all, ModelQuadFacing.NONE, id);
+            this.renderQuadList(world, state, pos, lighter, offset, buffers, all, ModelQuadFacing.UNASSIGNED, id);
 
             rendered = true;
         }
