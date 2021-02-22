@@ -45,7 +45,7 @@ public abstract class ChunkProgram extends GlProgram {
 
     public void setup(MatrixStack matrixStack) {
         GL20.glUniform1i(this.uBlockTex, 0);
-        GL20.glUniform1i(this.uLightTex, 2);
+        GL20.glUniform1i(this.uLightTex, 1); // Changed from uniform 2 to 1 since with Iris, texture unit 1 holds the lightmap instead of texture unit 2
         GL20.glUniform1i(this.uNoiseTex, 15);
         GL20.glUniform3f(this.uModelScale, MODEL_SIZE, MODEL_SIZE, MODEL_SIZE);
 
