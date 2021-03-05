@@ -16,8 +16,8 @@ jobs:
       uses: actions/checkout@v2
       with:
         repository: 'The-HyperZone/Iris'
-	ref: 'starline'
-	path: 'Iris'
+        ref: 'starline'
+        path: 'Iris'
     - name: Publish Iris to Maven Local
       run: cd ./Iris && gradlew publishToMavenLocal && cd ..
     - name: Grant execute permission for gradlew
