@@ -8,10 +8,10 @@ import me.jellysquid.mods.sodium.client.model.vertex.type.ChunkVertexType;
 import me.jellysquid.mods.sodium.client.render.chunk.ChunkGraphicsState;
 import me.jellysquid.mods.sodium.client.render.chunk.ChunkRenderBackend;
 import me.jellysquid.mods.sodium.client.render.chunk.format.ChunkMeshAttribute;
-import me.jellysquid.mods.sodium.client.render.chunk.passes.BlockRenderPass;
-
 import me.jellysquid.mods.sodium.common.util.collections.IntPool;
 import me.jellysquid.mods.sodium.common.util.collections.TrackedArray;
+import me.jellysquid.mods.sodium.client.render.chunk.passes.BlockRenderPass;
+
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 
