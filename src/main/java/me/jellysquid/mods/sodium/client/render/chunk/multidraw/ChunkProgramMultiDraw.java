@@ -67,7 +67,9 @@ public class ChunkProgramMultiDraw extends ChunkProgram {
 
         //setupAttributes(this.handle());
 
-        irisProgramUniforms.update();
+        if (irisProgramUniforms != null) {
+            irisProgramUniforms.update();
+        }
 
         Matrix4f modelViewMatrix = matrixStack.peek().getModel();
         Matrix4f normalMatrix = matrixStack.peek().getModel().copy();

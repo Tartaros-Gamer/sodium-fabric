@@ -19,6 +19,7 @@ import me.jellysquid.mods.sodium.common.util.DirectionUtil;
 import net.coderbot.iris.Iris;
 import net.coderbot.iris.shaderpack.IdMap;
 
+import net.coderbot.iris.shaderpack.ShaderPack;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.color.block.BlockColorProvider;
@@ -57,7 +58,7 @@ public class BlockRenderer {
 
         this.occlusionCache = new BlockOcclusionCache();
         this.useAmbientOcclusion = MinecraftClient.isAmbientOcclusionEnabled();
-        this.idMap = Iris.getCurrentPack().getIdMap();
+        this.idMap = Iris.getCurrentPack().map(ShaderPack::getIdMap).orElse(null);
     }
 
     public boolean renderModel(BlockRenderView world, BlockState state, BlockPos pos, BakedModel model, ChunkModelBuffers buffers, boolean cull, long seed) {
@@ -78,7 +79,9 @@ public class BlockRenderer {
 
             if (!cull || this.occlusionCache.shouldDrawSide(state, world, pos, dir)) {
                 if (!rendered) {
-                    id = resolveBlockId(state);
+                    if (idMap != null) {
+                        id = resolveBlockId(state);
+                    }
                 }
 
                 this.renderQuadList(world, state, pos, lighter, offset, buffers, sided, ModelQuadFacing.fromDirection(dir), id);
@@ -93,7 +96,9 @@ public class BlockRenderer {
 
         if (!all.isEmpty()) {
             if (!rendered) {
-                id = resolveBlockId(state);
+                if (idMap != null) {
+                    id = resolveBlockId(state);
+                }
             }
 
             this.renderQuadList(world, state, pos, lighter, offset, buffers, all, ModelQuadFacing.UNASSIGNED, id);

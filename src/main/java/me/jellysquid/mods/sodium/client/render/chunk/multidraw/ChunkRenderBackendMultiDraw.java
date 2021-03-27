@@ -24,15 +24,21 @@ public abstract class ChunkRenderBackendMultiDraw<T extends ChunkGraphicsState> 
 
     @Override
     protected ChunkProgramMultiDraw createShaderProgram(Identifier name, int handle, ChunkFogMode fogMode, BlockRenderPass pass) {
-        return new ChunkProgramMultiDraw(name, handle, fogMode.getFactory(), pipeline.initUniforms(handle));
+        if (pipeline != null) {
+            return new ChunkProgramMultiDraw(name, handle, fogMode.getFactory(), pipeline.initUniforms(handle));
+        }
+
+        return new ChunkProgramMultiDraw(name, handle, fogMode.getFactory(), null);
     }
 
     @Override
     protected GlShader createVertexShader(ChunkFogMode fogMode, BlockRenderPass pass) {
-        Optional<String> irisVertexShader = pass == BlockRenderPass.TRANSLUCENT ? pipeline.getTranslucentVertexShaderSource() : pipeline.getTerrainVertexShaderSource();
+        if (pipeline != null) {
+            Optional<String> irisVertexShader = pass == BlockRenderPass.TRANSLUCENT ? pipeline.getTranslucentVertexShaderSource() : pipeline.getTerrainVertexShaderSource();
 
-        if (irisVertexShader.isPresent()) {
-            return new GlShader(ShaderType.VERTEX, new Identifier("iris", "sodium-terrain.vsh"), irisVertexShader.get(), this.createShaderConstants(fogMode));
+            if (irisVertexShader.isPresent()) {
+                return new GlShader(ShaderType.VERTEX, new Identifier("iris", "sodium-terrain.vsh"), irisVertexShader.get(), this.createShaderConstants(fogMode));
+            }
         }
 
         return ShaderLoader.loadShader(ShaderType.VERTEX, new Identifier("sodium", "chunk_gl20.v.glsl"),
@@ -41,10 +47,12 @@ public abstract class ChunkRenderBackendMultiDraw<T extends ChunkGraphicsState> 
 
     @Override
     protected GlShader createFragmentShader(ChunkFogMode fogMode, BlockRenderPass pass) {
-        Optional<String> irisFragmentShader = pass == BlockRenderPass.TRANSLUCENT ? pipeline.getTranslucentFragmentShaderSource() : pipeline.getTerrainFragmentShaderSource();
+        if (pipeline != null) {
+            Optional<String> irisFragmentShader = pass == BlockRenderPass.TRANSLUCENT ? pipeline.getTranslucentFragmentShaderSource() : pipeline.getTerrainFragmentShaderSource();
 
-        if (irisFragmentShader.isPresent()) {
-            return new GlShader(ShaderType.FRAGMENT, new Identifier("iris", "sodium-terrain.fsh"), irisFragmentShader.get(), this.createShaderConstants(fogMode));
+            if (irisFragmentShader.isPresent()) {
+                return new GlShader(ShaderType.FRAGMENT, new Identifier("iris", "sodium-terrain.fsh"), irisFragmentShader.get(), this.createShaderConstants(fogMode));
+            }
         }
 
         return ShaderLoader.loadShader(ShaderType.FRAGMENT, new Identifier("sodium", "chunk_gl20.f.glsl"),
