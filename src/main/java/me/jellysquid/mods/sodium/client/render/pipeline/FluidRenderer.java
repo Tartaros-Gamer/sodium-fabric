@@ -122,8 +122,7 @@ public class FluidRenderer {
 
         Fluid fluid = fluidState.getFluid();
         BlockState state = fluidState.getBlockState();
-        Identifier id = Registry.BLOCK.getId(state.getBlock());
-        short blockId = idMap != null ? (short) (int) idMap.getBlockProperties().getOrDefault(id, -1) : -1;
+        short blockId = idMap != null ? (short) (int) idMap.getBlockProperties().getOrDefault(state, -1) : -1;
 
         boolean sfUp = this.isFluidExposed(world, posX, posY + 1, posZ, fluid);
         boolean sfDown = this.isFluidExposed(world, posX, posY - 1, posZ, fluid) &&

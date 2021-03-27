@@ -110,8 +110,7 @@ public class BlockRenderer {
     }
 
     private short resolveBlockId(BlockState state) {
-        Identifier id = Registry.BLOCK.getId(state.getBlock());
-        return (short) (int) idMap.getBlockProperties().getOrDefault(id, -1);
+        return (short) (int) idMap.getBlockProperties().getOrDefault(state, -1);
     }
 
     private void renderQuadList(BlockRenderView world, BlockState state, BlockPos pos, LightPipeline lighter, Vec3d offset,
