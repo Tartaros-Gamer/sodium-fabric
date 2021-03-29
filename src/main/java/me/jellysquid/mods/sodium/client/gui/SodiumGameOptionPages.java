@@ -2,7 +2,6 @@ package me.jellysquid.mods.sodium.client.gui;
 
 import com.google.common.collect.ImmutableList;
 import me.jellysquid.mods.sodium.client.SodiumClientMod;
-import me.jellysquid.mods.sodium.client.gui.SodiumGameOptionPages.SupportedGraphicsMode;
 import me.jellysquid.mods.sodium.client.gui.options.*;
 import me.jellysquid.mods.sodium.client.gui.options.binding.compat.VanillaBooleanOptionBinding;
 import me.jellysquid.mods.sodium.client.gui.options.control.ControlValueFormatter;
@@ -134,38 +133,18 @@ public class SodiumGameOptionPages {
         return new OptionPage("General", ImmutableList.copyOf(groups));
     }
 
-    enum SupportedGraphicsMode {
-        FAST, FANCY;
-
-        static SupportedGraphicsMode fromVanilla(GraphicsMode vanilla) {
-            if (vanilla == GraphicsMode.FAST) {
-                return FAST;
-            } else {
-                return FANCY;
-            }
-        }
-
-        GraphicsMode toVanilla() {
-            if (this == FAST) {
-                return GraphicsMode.FAST;
-            } else {
-                return GraphicsMode.FANCY;
-            }
-        }
-    }
-
     public static OptionPage quality() {
         List<OptionGroup> groups = new ArrayList<>();
 
         groups.add(OptionGroup.createBuilder()
-                .add(OptionImpl.createBuilder(SupportedGraphicsMode.class, vanillaOpts)
+                .add(OptionImpl.createBuilder(GraphicsMode.class, vanillaOpts)
                         .setName("Graphics Quality")
                         .setTooltip("The default graphics quality controls some legacy options and is necessary for mod compatibility. If the options below are left to " +
                                 "\"Default\", they will use this setting.")
-                        .setControl(option -> new CyclingControl<>(option, SupportedGraphicsMode.class, new String[] { "Fast", "Fancy"/*, "Fabulous"*/ }))
+                        .setControl(option -> new CyclingControl<>(option, GraphicsMode.class, new String[] { "Fast", "Fancy", "Fabulous" }))
                         .setBinding(
-                                (opts, value) -> opts.graphicsMode = value.toVanilla(),
-                                opts -> SupportedGraphicsMode.fromVanilla(opts.graphicsMode))
+                                (opts, value) -> opts.graphicsMode = value,
+                                opts -> opts.graphicsMode)
                         .setImpact(OptionImpact.HIGH)
                         .setFlags(OptionFlag.REQUIRES_RENDERER_RELOAD)
                         .build())
