@@ -67,7 +67,9 @@ public class ChunkProgramOneshot extends ChunkProgram {
     public void setup(MatrixStack matrixStack, float modelScale, float textureScale) {
         super.setup(matrixStack, modelScale, textureScale);
 
-        irisProgramUniforms.update();
+        if (irisProgramUniforms != null) {
+            irisProgramUniforms.update();
+        }
 
         Matrix4f modelViewMatrix = matrixStack.peek().getModel();
         Matrix4f normalMatrix = matrixStack.peek().getModel().copy();
