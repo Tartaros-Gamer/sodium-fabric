@@ -21,7 +21,9 @@ import me.jellysquid.mods.sodium.client.render.chunk.shader.ChunkFogMode;
 import me.jellysquid.mods.sodium.client.render.chunk.shader.ChunkRenderShaderBackend;
 import net.minecraft.util.Identifier;
 
+import net.coderbot.iris.gl.program.ProgramUniforms;
 import net.coderbot.iris.pipeline.SodiumTerrainPipeline;
+import org.jetbrains.annotations.Nullable;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
 
@@ -32,6 +34,7 @@ import java.util.Optional;
 
 public abstract class ChunkRenderBackendOneshot<T extends ChunkOneshotGraphicsState> extends ChunkRenderShaderBackend<T, ChunkProgramOneshot> {
     private final GlMultiDrawBatch batch = new GlMultiDrawBatch(ModelQuadFacing.COUNT);
+    @Nullable
     private final SodiumTerrainPipeline pipeline = SodiumTerrainPipeline.create();
 
     private final MemoryTracker memoryTracker = new MemoryTracker();
@@ -42,21 +45,22 @@ public abstract class ChunkRenderBackendOneshot<T extends ChunkOneshotGraphicsSt
 
     @Override
     protected ChunkProgramOneshot createShaderProgram(Identifier name, int handle, ChunkFogMode fogMode, BlockRenderPass pass) {
+        ProgramUniforms uniforms = null;
+
         if (pipeline != null) {
-            return new ChunkProgramOneshot(name, handle, fogMode.getFactory(), pipeline.initUniforms(handle));
+            uniforms = pipeline.initUniforms(handle);
         }
 
-        return new ChunkProgramOneshot(name, handle, fogMode.getFactory(), null);
+        return new ChunkProgramOneshot(name, handle, fogMode.getFactory(), uniforms);
     }
 
     @Override
     protected GlShader createVertexShader(ChunkFogMode fogMode, BlockRenderPass pass) {
         if (pipeline != null) {
-            Optional<String> irisVertexShader = pass == BlockRenderPass.TRANSLUCENT ? pipeline.getTranslucentVertexShaderSource() : pipeline.getTerrainVertexShaderSource();
+            Optional<String> irisVertexShader = pass.isTranslucent() ? pipeline.getTranslucentVertexShaderSource() : pipeline.getTerrainVertexShaderSource();
 
             if (irisVertexShader.isPresent()) {
                 return new GlShader(ShaderType.VERTEX, new Identifier("iris", "sodium-terrain.vsh"), irisVertexShader.get(), ShaderConstants.builder().build());
-
             }
         }
 
@@ -66,7 +70,7 @@ public abstract class ChunkRenderBackendOneshot<T extends ChunkOneshotGraphicsSt
     @Override
     protected GlShader createFragmentShader(ChunkFogMode fogMode, BlockRenderPass pass) {
         if (pipeline != null) {
-            Optional<String> irisFragmentShader = pass == BlockRenderPass.TRANSLUCENT ? pipeline.getTranslucentFragmentShaderSource() : pipeline.getTerrainFragmentShaderSource();
+            Optional<String> irisFragmentShader = pass.isTranslucent() ? pipeline.getTranslucentFragmentShaderSource() : pipeline.getTerrainFragmentShaderSource();
 
             if (irisFragmentShader.isPresent()) {
                 return new GlShader(ShaderType.FRAGMENT, new Identifier("iris", "sodium-terrain.fsh"), irisFragmentShader.get(), ShaderConstants.builder().build());

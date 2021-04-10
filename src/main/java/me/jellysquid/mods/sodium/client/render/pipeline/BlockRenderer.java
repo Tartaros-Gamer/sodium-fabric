@@ -18,6 +18,8 @@ import me.jellysquid.mods.sodium.client.world.biome.BlockColorsExtended;
 import me.jellysquid.mods.sodium.common.util.DirectionUtil;
 import net.coderbot.iris.Iris;
 import net.coderbot.iris.shaderpack.IdMap;
+import net.coderbot.iris.shaderpack.ShaderPack;
+import org.jetbrains.annotations.Nullable;
 
 import net.coderbot.iris.shaderpack.ShaderPack;
 import net.minecraft.block.BlockState;
@@ -48,6 +50,7 @@ public class BlockRenderer {
     private final LightPipelineProvider lighters;
 
     private final boolean useAmbientOcclusion;
+    @Nullable
     private final IdMap idMap;
 
     public BlockRenderer(MinecraftClient client, LightPipelineProvider lighters, BiomeColorBlender biomeColorBlender) {
@@ -110,6 +113,10 @@ public class BlockRenderer {
     }
 
     private short resolveBlockId(BlockState state) {
+        if (idMap == null) {
+            return -1;
+        }
+
         return (short) (int) idMap.getBlockProperties().getOrDefault(state, -1);
     }
 

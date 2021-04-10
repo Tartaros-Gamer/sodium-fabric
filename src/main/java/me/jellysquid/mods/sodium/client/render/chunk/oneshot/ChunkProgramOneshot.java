@@ -8,6 +8,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Matrix4f;
 
 import net.coderbot.iris.gl.program.ProgramUniforms;
+import org.jetbrains.annotations.Nullable;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL21;
@@ -25,9 +26,10 @@ public class ChunkProgramOneshot extends ChunkProgram {
     // Scratch buffer
     private final FloatBuffer uModelOffsetBuffer;
 
+    @Nullable
     private final ProgramUniforms irisProgramUniforms;
 
-    public ChunkProgramOneshot(Identifier name, int handle, Function<ChunkProgram, ChunkShaderFogComponent> fogShaderFunction, ProgramUniforms irisProgramUniforms) {
+    public ChunkProgramOneshot(Identifier name, int handle, Function<ChunkProgram, ChunkShaderFogComponent> fogShaderFunction, @Nullable ProgramUniforms irisProgramUniforms) {
         super(name, handle, fogShaderFunction);
 
         this.dModelOffset = this.getUniformLocation("d_ModelOffset");
