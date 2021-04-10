@@ -35,7 +35,7 @@ import java.util.Optional;
 public abstract class ChunkRenderBackendOneshot<T extends ChunkOneshotGraphicsState> extends ChunkRenderShaderBackend<T, ChunkProgramOneshot> {
     private final GlMultiDrawBatch batch = new GlMultiDrawBatch(ModelQuadFacing.COUNT);
     @Nullable
-    private final SodiumTerrainPipeline pipeline = SodiumTerrainPipeline.create();
+    private final SodiumTerrainPipeline pipeline = SodiumTerrainPipeline.create().orElse(null);
 
     private final MemoryTracker memoryTracker = new MemoryTracker();
 
