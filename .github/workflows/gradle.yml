@@ -20,8 +20,6 @@ jobs:
         path: 'Iris'
     - name: Publish Iris to Maven Local
       run: cd ./Iris && ./gradlew publishToMavenLocal && cd ..
-    - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
     - name: Build with Gradle
       run: ./gradlew build
     - name: Upload build artifacts
