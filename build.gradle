@@ -4,20 +4,8 @@ plugins {
 }
 
 archivesBaseName = "${project.archives_base_name}-mc${project.minecraft_version}"
-version = project.mod_version
+version = "${project.mod_version}-SNAPSHOT_${getVersionMetadata()}"
 group = project.maven_group
-
-def build_release = System.getenv("BUILD_RELEASE") == "true"
-def build_id = System.getenv("BUILD_ID")
-
-if (!build_release) {
-    version += "-SNAPSHOT"
-}
-
-if (build_id != null) {
-    version += "+build.${build_id}"
-}
-
 
 minecraft {
     refmapName = "mixins.sodium.refmap.json"
@@ -25,6 +13,11 @@ minecraft {
 }
 
 repositories {
+    // Fixes dependency resolution error for the modmenu dependency from the new maven in starline iris
+    maven {
+      url "https://maven.terraformersmc.com/releases/"
+    }
+
     mavenLocal()
 }
 
@@ -76,4 +69,28 @@ java {
 
 jar {
     from "LICENSE.txt"
+}
+
+def getVersionMetadata() {
+    def build_id = System.getenv("GITHUB_RUN_NUMBER")
+
+    // CI builds only
+    if (build_id != null) {
+        return "build.${build_id}"
+    }
+
+    if (grgit != null) {
+        def head = grgit.head()
+        def id = head.abbreviatedId
+
+        // Flag the build if the build tree is not clean
+        if (!grgit.status().clean) {
+            id += "-dirty"
+        }
+
+        return "rev.${id}"
+    }
+
+    // No tracking information could be found about the build
+    return "unknown"
 }
