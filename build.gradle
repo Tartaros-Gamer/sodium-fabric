@@ -27,7 +27,7 @@ dependencies {
     mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
-    modImplementation "net.coderbot.iris:iris:0.4.0-starline"
+    modImplementation "net.coderbot.iris:iris:0.5.0-starline"
 }
 
 if (project.use_third_party_mods) {
