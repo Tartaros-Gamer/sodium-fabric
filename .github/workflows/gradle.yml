@@ -15,8 +15,8 @@ jobs:
     - name: Fetch iris
       uses: actions/checkout@v2
       with:
-        repository: 'IrisShaders/Iris'
-        ref: '1.17'
+        repository: 'HyperCubeMC/Iris'
+        ref: '1.17-starline'
         path: 'iris'
     - name: Iris publishToMavenLocal
       run: cd ./iris && ./gradlew publishToMavenLocal && cd ..
