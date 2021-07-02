@@ -1,6 +1,6 @@
 # Sodium (Iris Fork)
 
-This is a fork of Sodium adding Iris compatibility. It's experimental and is mainly intended for use by developers as a proof of concept.
+This is a fork of Iris's Sodium Compatibility fork intended to be used for testing and developing with the starline branch on my Iris fork.
 
 ## Notes on compiling the fork
 
@@ -12,7 +12,7 @@ platforms. If you'd prefer to not use a package manager, you can always grab the
 On Windows, the Oracle JDK/JRE builds should be avoided where possible due to their poor quality. Always prefer using
 the open-source builds from AdoptOpenJDK when possible.
 
-**You need to have a compiled build of Iris in your mavenLocal repository. You will be unable to compile this fork otherwise!** Use the `publishToMavenLocal` Gradle task in the Iris repository to accomplish this.
+**You need to have a compiled build of the Iris (The-HyperZone fork) starline branch in your mavenLocal repository. You will be unable to compile this fork otherwise!** Use the `publishToMavenLocal` Gradle task in the Iris repository (checked out to the starline branch) to accomplish this.
 
 ### License
 

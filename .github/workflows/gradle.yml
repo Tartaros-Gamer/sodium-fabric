@@ -20,7 +20,7 @@ jobs:
         path: 'iris'
     - name: Iris publishToMavenLocal
       run: cd ./iris && ./gradlew publishToMavenLocal && cd ..
-    - name: Build artifacts
+    - name: Build with Gradle
       run: ./gradlew build
     - name: Upload build artifacts
       uses: actions/upload-artifact@v2
