@@ -278,6 +278,7 @@ public class SodiumWorldRenderer implements ChunkStatusListener {
         this.chunkRenderer = new RegionChunkRenderer(device, ChunkModelVertexFormats.EXTENDED);
 
         this.renderSectionManager = new RenderSectionManager(this, this.chunkRenderer, this.renderPassManager, this.world, this.renderDistance);
+        this.renderSectionManager.loadAllChunks();
     }
 
     public void renderTileEntities(MatrixStack matrices, BufferBuilderStorage bufferBuilders, Long2ObjectMap<SortedSet<BlockBreakingInfo>> blockBreakingProgressions,

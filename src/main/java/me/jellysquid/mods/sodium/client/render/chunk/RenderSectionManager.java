@@ -106,7 +106,6 @@ public class RenderSectionManager implements ChunkStatusListener {
     private FrustumExtended frustum;
 
     private int activeFrame = 0;
-    private boolean init;
 
     private ChunkRenderList chunkRenderListSwap = new ChunkRenderList();
     private ObjectList<RenderSection> tickableChunksSwap = new ObjectArrayList<>();
@@ -347,11 +346,6 @@ public class RenderSectionManager implements ChunkStatusListener {
     }
 
     public void updateChunks() {
-        if (!this.init) {
-            this.loadAllChunks();
-            this.init = true;
-        }
-
         PriorityQueue<CompletableFuture<ChunkBuildResult>> blockingFutures = this.submitRebuildTasks(ChunkUpdateType.IMPORTANT_REBUILD);
 
         this.submitRebuildTasks(ChunkUpdateType.REBUILD);
@@ -365,7 +359,7 @@ public class RenderSectionManager implements ChunkStatusListener {
         }
     }
 
-    private void loadAllChunks() {
+    public void loadAllChunks() {
         LongIterator it = ((ClientChunkManagerExtended) this.world.getChunkManager())
                 .getLoadedChunks()
                 .iterator();
