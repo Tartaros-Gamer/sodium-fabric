@@ -1,4 +1,5 @@
-# Sodium (Iris Fork)
+<img src="src/main/resources/assets/sodium/icon.png" width="128">
+# Sodium (for Starline Iris Fork)
 
 This is a fork of Iris's Sodium Compatibility fork intended to be used for testing and developing with the starline branch on my Iris fork.
 
