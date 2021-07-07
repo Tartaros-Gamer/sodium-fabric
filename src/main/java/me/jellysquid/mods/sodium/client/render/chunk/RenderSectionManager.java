@@ -268,9 +268,9 @@ public class RenderSectionManager implements ChunkStatusListener {
         this.adjacencyMap.onChunkLoaded(x, z);
 
         for (int y = this.world.getBottomSectionCoord(); y < this.world.getTopSectionCoord(); y++) {
-            boolean dirtied = this.loadSection(x, y, z);
-            this.needsUpdate |= dirtied;
-            this.needsUpdateSwap |= dirtied;
+            boolean dirty = this.loadSection(x, y, z);
+            this.needsUpdate |= dirty;
+            this.needsUpdateSwap |= dirty;
         }
     }
 
@@ -279,9 +279,9 @@ public class RenderSectionManager implements ChunkStatusListener {
         this.adjacencyMap.onChunkUnloaded(x, z);
 
         for (int y = this.world.getBottomSectionCoord(); y < this.world.getTopSectionCoord(); y++) {
-            boolean dirtied = this.unloadSection(x, y, z);
-            this.needsUpdate |= dirtied;
-            this.needsUpdateSwap |= dirtied;
+            boolean dirty = this.unloadSection(x, y, z);
+            this.needsUpdate |= dirty;
+            this.needsUpdateSwap |= dirty;
         }
     }
 
