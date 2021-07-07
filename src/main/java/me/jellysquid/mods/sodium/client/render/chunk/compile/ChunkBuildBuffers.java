@@ -14,12 +14,14 @@ import me.jellysquid.mods.sodium.client.render.chunk.format.ModelVertexSink;
 import me.jellysquid.mods.sodium.client.render.chunk.format.MaterialIdHolder;
 import me.jellysquid.mods.sodium.client.render.chunk.passes.BlockRenderPass;
 import me.jellysquid.mods.sodium.client.render.chunk.passes.BlockRenderPassManager;
+import me.jellysquid.mods.sodium.client.util.NativeBuffer;
 import net.coderbot.iris.block_rendering.BlockRenderingSettings;
 import net.coderbot.iris.shaderpack.IdMap;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.util.GlAllocationUtils;
+import org.lwjgl.system.MemoryUtil;
 
 import java.nio.ByteBuffer;
 import java.util.Arrays;
@@ -106,8 +108,8 @@ public class ChunkBuildBuffers {
                 .mapToInt(IndexBufferBuilder::getSize)
                 .sum();
 
-        ByteBuffer vertexBuffer = GlAllocationUtils.allocateByteBuffer(vertexDataLength);
-        ByteBuffer indexBuffer = GlAllocationUtils.allocateByteBuffer(indexDataLength);
+        ByteBuffer vertexBuffer = MemoryUtil.memAlloc(vertexDataLength);
+        ByteBuffer indexBuffer = MemoryUtil.memAlloc(indexDataLength);
 
         int baseIndex = 0;
 
@@ -137,7 +139,7 @@ public class ChunkBuildBuffers {
         indexBuffer.flip();
 
         IndexedVertexData vertexData = new IndexedVertexData(this.vertexType.getCustomVertexFormat(),
-                vertexBuffer, indexBuffer);
+                new NativeBuffer(vertexBuffer), new NativeBuffer(indexBuffer));
 
         return new ChunkMeshData(vertexData, ranges);
     }
@@ -148,5 +150,11 @@ public class ChunkBuildBuffers {
 
     public void resetMaterialId() {
         this.idHolder.reset();
+    }
+
+    public void destroy() {
+        for (VertexBufferBuilder builder : this.vertexBuffers) {
+            builder.destroy();
+        }
     }
 }
