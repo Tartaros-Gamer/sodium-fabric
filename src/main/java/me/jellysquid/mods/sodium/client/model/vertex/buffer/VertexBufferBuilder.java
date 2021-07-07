@@ -2,7 +2,6 @@ package me.jellysquid.mods.sodium.client.model.vertex.buffer;
 
 import me.jellysquid.mods.sodium.client.gl.attribute.BufferVertexFormat;
 import net.minecraft.client.util.GlAllocationUtils;
-import org.lwjgl.system.MemoryUtil;
 
 import java.nio.ByteBuffer;
 
@@ -17,7 +16,7 @@ public class VertexBufferBuilder implements VertexBufferView {
     public VertexBufferBuilder(BufferVertexFormat vertexFormat, int initialCapacity) {
         this.vertexFormat = vertexFormat;
 
-        this.buffer = MemoryUtil.memAlloc(initialCapacity);
+        this.buffer = GlAllocationUtils.allocateByteBuffer(initialCapacity);
         this.capacity = initialCapacity;
         this.writerOffset = 0;
     }
@@ -26,8 +25,13 @@ public class VertexBufferBuilder implements VertexBufferView {
         // The new capacity will at least as large as the write it needs to service
         int cap = Math.max(this.capacity * 2, this.capacity + len);
 
+        // Allocate a new buffer and copy the old buffer's contents into it
+        ByteBuffer buffer = GlAllocationUtils.allocateByteBuffer(cap);
+        buffer.put(this.buffer);
+        buffer.position(0);
+
         // Update the buffer and capacity now
-        this.buffer = MemoryUtil.memRealloc(this.buffer, cap);
+        this.buffer = buffer;
         this.capacity = cap;
     }
 
@@ -94,10 +98,5 @@ public class VertexBufferBuilder implements VertexBufferView {
     public void reset() {
         this.writerOffset = 0;
         this.count = 0;
-    }
-
-    public void destroy() {
-        MemoryUtil.memFree(this.buffer);
-        this.buffer = null;
     }
 }

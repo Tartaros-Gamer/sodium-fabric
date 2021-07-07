@@ -1,8 +1,6 @@
 package me.jellysquid.mods.sodium.client.gl.buffer;
 
 import me.jellysquid.mods.sodium.client.gl.attribute.GlVertexFormat;
-import me.jellysquid.mods.sodium.client.util.NativeBuffer;
-import org.lwjgl.system.MemoryUtil;
 
 import java.nio.ByteBuffer;
 
@@ -12,17 +10,12 @@ import java.nio.ByteBuffer;
 public class IndexedVertexData {
     public final GlVertexFormat<?> vertexFormat;
 
-    public final NativeBuffer vertexBuffer;
-    public final NativeBuffer indexBuffer;
+    public final ByteBuffer vertexBuffer;
+    public final ByteBuffer indexBuffer;
 
-    public IndexedVertexData(GlVertexFormat<?> vertexFormat, NativeBuffer vertexBuffer, NativeBuffer indexBuffer) {
+    public IndexedVertexData(GlVertexFormat<?> vertexFormat, ByteBuffer vertexBuffer, ByteBuffer indexBuffer) {
         this.vertexFormat = vertexFormat;
         this.vertexBuffer = vertexBuffer;
         this.indexBuffer = indexBuffer;
-    }
-
-    public void delete() {
-        this.vertexBuffer.free();
-        this.indexBuffer.free();
     }
 }
