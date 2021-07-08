@@ -42,6 +42,7 @@ dependencies {
     modIncludeImplementation(fabricApi.module("fabric-rendering-fluids-v1", project.fabric_version))
     modIncludeImplementation(fabricApi.module("fabric-rendering-data-attachment-v1", project.fabric_version))
 
+    // Iris
     modImplementation "net.coderbot.iris_mc1_17:iris:1.1.0-starline+"
 }
 
