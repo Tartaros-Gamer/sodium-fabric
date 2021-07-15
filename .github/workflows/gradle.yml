@@ -15,7 +15,7 @@ jobs:
     - name: Clone Iris
       uses: actions/checkout@v2
       with:
-        repository: 'The-HyperZone/Iris'
+        repository: 'HyperCubeMC/Iris'
         ref: 'starline'
         path: 'Iris'
     - name: Publish Iris to Maven Local
